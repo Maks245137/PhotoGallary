@@ -28,7 +28,7 @@ if ($page > $totalPages)
 $pagedImages = array_slice($images, ($page - 1) * $perPage, $perPage);
 
 // Параметры для отображения диапазона страниц
-$pagesToShow = 2; // сколько страниц показывать слева и справа
+$pagesToShow = 1; // сколько страниц показывать слева и справа
 $startPage = max(1, $page - $pagesToShow);
 $endPage = min($totalPages, $page + $pagesToShow);
 ?>
@@ -87,9 +87,10 @@ $endPage = min($totalPages, $page + $pagesToShow);
   </div>
 
   <div class="pagination">
-    <?php if ($page > 1): ?>
-      <a href="?page=<?= $page - 1 ?>">
-        << /a>
+    <?php
+    // Rнопка назад
+    if ($page > 1): ?>
+      <a href="?page=<?= $page - 1 ?>"> < </a>
         <?php endif; ?>
 
         <?php
@@ -103,8 +104,10 @@ $endPage = min($totalPages, $page + $pagesToShow);
         endfor;
         ?>
 
-        <?php if ($page < $totalPages): ?>
-          <a href="?page=<?= $page + 1 ?>">></a>
+        <?php
+        // Кнопка вперед
+        if ($page < $totalPages): ?>
+          <a href="?page=<?= $page + 1 ?>"> > </a>
         <?php endif; ?>
   </div>
 
