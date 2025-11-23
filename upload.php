@@ -61,44 +61,60 @@ if (file_exists($fullPath)) {
 // вотермарка
 $watermarkPath = 'img/watermark.png';
 if (file_exists($watermarkPath)) {
-switch ($mimeType) {
-    case 'image/png':
-        $imgBody = imagecreatefrompng($tmpPath);
-        $watermark = imagecreatefrompng($watermarkPath);
+    switch ($mimeType) {
+        case 'image/png':
+            $imgBody = imagecreatefrompng($tmpPath);
+            $watermark = imagecreatefrompng($watermarkPath);
 
-        $imgWidth = imagesx($imgBody);
-        $imgHeight = imagesy($imgBody);
+            $imgWidth = imagesx($imgBody);
+            $imgHeight = imagesy($imgBody);
 
-        $watermarkWidth = imagesx($watermark);
-        $watermarkHeight = imagesy($watermark);
+            $watermarkWidth = imagesx($watermark);
+            $watermarkHeight = imagesy($watermark);
 
-        imagecopy($imgBody, $watermark, 0, 0, 0, 0, $watermarkWidth, $watermarkHeight);
+            imagecopy($imgBody, $watermark, 0, 0, 0, 0, $watermarkWidth, $watermarkHeight);
 
-        imagepng($imgBody, $fullPath);
+            imagepng($imgBody, $fullPath);
 
-        imagedestroy($imgBody);
-        imagedestroy($watermark);
-        break;
+            imagedestroy($imgBody);
+            imagedestroy($watermark);
+            break;
 
-    case 'image/jpeg':
-        $imgBody = imagecreatefromjpeg($tmpPath);
-        $watermark = imagecreatefrompng($watermarkPath);
+        case 'image/jpeg':
+            $imgBody = imagecreatefromjpeg($tmpPath);
+            $watermark = imagecreatefrompng($watermarkPath);
 
-        $imgWidth = imagesx($imgBody);
-        $imgHeight = imagesy($imgBody);
+            $imgWidth = imagesx($imgBody);
+            $imgHeight = imagesy($imgBody);
 
-        $watermarkWidth = imagesx($watermark);
-        $watermarkHeight = imagesy($watermark);
+            $watermarkWidth = imagesx($watermark);
+            $watermarkHeight = imagesy($watermark);
 
-        imagecopy($imgBody, $watermark, 0, 0, 0, 0, $watermarkWidth, $watermarkHeight);
+            imagecopy($imgBody, $watermark, 0, 0, 0, 0, $watermarkWidth, $watermarkHeight);
 
-        imagejpeg($imgBody, $fullPath);
+            imagejpeg($imgBody, $fullPath);
 
-        imagedestroy($imgBody);
-        imagedestroy($watermark);
-        break;
+            imagedestroy($imgBody);
+            imagedestroy($watermark);
+            break;
+    }
+} else {
+    switch ($mimeType) {
+        case 'image/png':
+            $imgBody = imagecreatefrompng($tmpPath);
+            imagepng($imgBody, $fullPath);
+            imagedestroy($imgBody);
+            break;
+
+        case 'image/jpeg':
+            $imgBody = imagecreatefromjpeg($tmpPath);
+            imagejpeg($imgBody, $fullPath);
+            imagedestroy($imgBody);
+            break;
+    }
 }
-}
+
+
 
 // миниатюра
 switch ($mimeType) {
@@ -146,5 +162,3 @@ imagedestroy($thumb);
 
 header('Location: index.php');
 exit;
-
-?>
