@@ -1,16 +1,17 @@
 <?php
-$dir = "thumbnails/";
-$allowedExtensions = ["jpg", "jpeg", "png"];
-$files = scandir($dir);
+$thumbDir = "thumbnails/";
+$fullDir = "full/";
+$files = scandir($thumbDir);
 
 foreach ($files as $file) {
-    if ($file === "." || $file === "..") {
-        continue;
-    }
+    if ($file === "." || $file === "..") continue;
 
-    $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-    if (in_array($ext, $allowedExtensions)) {
-        echo '<img src="' . $dir . $file . '" alt="Image" onclick="windows.open($file)">';
+    $thumbPath = $thumbDir . $file;
+    $fullPath = $fullDir . $file;
+
+    if (file_exists($fullPath)) {
+        echo '<a href="' . htmlspecialchars($fullPath) . '" target="_blank" rel="noopener noreferrer">';
+        echo '<img src="' . htmlspecialchars($thumbPath) . '" alt="Миниатюра">';
+        echo '</a>';
     }
 }
-?>
