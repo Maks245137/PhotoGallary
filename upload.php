@@ -60,6 +60,7 @@ if (file_exists($fullPath)) {
 
 // вотермарка
 $watermarkPath = 'img/watermark.png';
+if (file_exists($watermarkPath)) {
 switch ($mimeType) {
     case 'image/png':
         $imgBody = imagecreatefrompng($tmpPath);
@@ -96,6 +97,7 @@ switch ($mimeType) {
         imagedestroy($imgBody);
         imagedestroy($watermark);
         break;
+}
 }
 
 // миниатюра
