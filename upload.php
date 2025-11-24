@@ -126,10 +126,11 @@ switch ($mimeType) {
         break;
 }
 
+
 $srcWidth = imagesx($imgSrc);
 $srcHeight = imagesy($imgSrc);
 
-$thumbWidth = 150;
+$thumbWidth = 200;
 $thumbHeight = intval($srcHeight * ($thumbWidth / $srcWidth));
 
 $thumb = imagecreatetruecolor($thumbWidth, $thumbHeight);
@@ -149,16 +150,56 @@ imagecopyresampled(
 $thumbPath = $thumbDir . $fileName;
 switch ($mimeType) {
     case 'image/png':
+        $textColor = imagecolorallocate($thumb, 0, 0, 255);
+        $datetime = date("Y-m-d H:i:s");
+        imagestring($thumb, 1, 0, 0, $datetime, $textColor);
         imagepng($thumb, $thumbPath);
         break;
     case 'image/jpeg':
+        $textColor = imagecolorallocate($thumb, 0, 0, 255);
+        $datetime = date('Y-m-d H:i:s');
+        imagestring($thumb, 5, 0, 0, $datetime, $textColor);
         imagejpeg($thumb, $thumbPath);
         break;
 }
 
+
+
+
+
 imagedestroy($imgSrc);
 imagedestroy($thumb);
 
+
+
+// Добавление описания
+$description = trim($_POST["description"]);
+$filePath = "data.json";
+
+// читаем данные из файла, если получили не массив или файла нет, создаем пустой массив
+if (file_exists($filePath)) {
+    $existingData = json_decode(file_get_contents($filePath), true);
+    if (!is_array($existingData)) {
+        $existingData = [];
+    }
+} else {
+    $existingData = [];
+}
+
+// добавляем новые данные в массив
+$newData = [
+    "fileName" => $fileName,
+    "description" => $description
+];
+
+array_unshift($existingData, $newData);
+
+
+// записываем обновленные данные в файл
+$jsonData = json_encode($existingData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+if (!(file_put_contents($filePath, $jsonData))) {
+    ErrorMsg("Ошибка записи описания.");
+}
 
 header('Location: index.php');
 exit;

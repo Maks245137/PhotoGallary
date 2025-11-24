@@ -1,0 +1,22 @@
+/* styles.css */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.image-grid img {
+  width: 50%;
+  height: auto;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+.pagination a {
+  margin: 0 5px;
+  text-decoration: none;
+}
+.pagination strong {
+  margin: 0 5px;
+}
